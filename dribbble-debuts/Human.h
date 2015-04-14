@@ -13,8 +13,8 @@
 
 @property (nonatomic, assign) CGFloat positionX;
 @property (nonatomic, assign) CGFloat positionY;
-@property (nonatomic, assign) CGFloat height;
+@property (nonatomic, assign) CGFloat width;
 
-- (id)initWithPositionX:(CGFloat)posX andPositionX:(CGFloat)posY andHeight:(CGFloat)humanHeight;
+- (id)initWithPositionX:(CGFloat)posX andPositionX:(CGFloat)posY andWidth:(CGFloat)width;
 
 @end

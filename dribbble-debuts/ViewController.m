@@ -60,21 +60,21 @@ NSMutableArray *humanOuterBoundPosition;
     // Create a list of position of humans
     humanOuterBoundPosition = [[NSMutableArray alloc] init];
     
-    Human *human = [[Human alloc] initWithPositionX:16 andPositionX:604 andHeight:16];
+    Human *human = [[Human alloc] initWithPositionX:16 andPositionX:604 andWidth:11];
     [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andHeight:16];
+    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andWidth:16];
     [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andHeight:16];
+    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andWidth:10];
     [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:162 andPositionX:601 andHeight:16];
+    human = [[Human alloc] initWithPositionX:162 andPositionX:601 andWidth:16];
     [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andHeight:16];
+    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andWidth:16];
     [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:258 andPositionX:627 andHeight:16];
+    human = [[Human alloc] initWithPositionX:258 andPositionX:627 andWidth:16];
     [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:347 andPositionX:644 andHeight:16];
+    human = [[Human alloc] initWithPositionX:347 andPositionX:644 andWidth:5];
     [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andHeight:16];
+    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andWidth:12];
     [humanOuterBoundPosition addObject:human];
     
 }
@@ -103,12 +103,16 @@ NSMutableArray *humanOuterBoundPosition;
     // Iterate through the list of positions to generate humans
     for (Human *human in humanOuterBoundPosition)
     {
+        
+        UIImage *scaledHumanImage = [self imageWithImage:humanImage scaledToWidth:human.width];
         // Generate an UIImageview for each human with its scale
         UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
                                                                                human.positionY,
-                                                                               humanImage.size.width,
-                                                                               humanImage.size.height)];
-        humanView.image = humanImage;
+                                                                               scaledHumanImage.size.width,
+                                                                               scaledHumanImage.size.height)];
+        
+        NSLog(@"%f %f", scaledHumanImage.size.height, scaledHumanImage.size.width);
+        humanView.image = scaledHumanImage;
         [self.view addSubview:humanView];
     }
 }
@@ -123,6 +127,20 @@ NSMutableArray *humanOuterBoundPosition;
                      animations:^{
                          imageView.alpha = 1.0;
                      } completion:NULL];
+}
+
+- (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToWidth:(float)newWidth
+{
+    float oldWidth = sourceImage.size.width;
+    float scaleFactor = newWidth / oldWidth;
+    
+    float newHeight = sourceImage.size.height * scaleFactor;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+    [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 - (void)didReceiveMemoryWarning

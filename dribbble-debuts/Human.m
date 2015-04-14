@@ -10,13 +10,13 @@
 
 @implementation Human
 
-- (id)initWithPositionX:(CGFloat)posX andPositionX:(CGFloat)posY andHeight:(CGFloat)height
+- (id)initWithPositionX:(CGFloat)posX andPositionX:(CGFloat)posY andWidth:(CGFloat)width
 {
     self = [super init];
     if(self) {
         _positionX = posX;
         _positionY = posY;
-        _height = height;
+        _width = width;
     }
     return self;
 }
