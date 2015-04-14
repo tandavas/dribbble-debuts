@@ -17,6 +17,8 @@
 		90B33CFF1ADD7F5100A370C5 /* dribbble_debutsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B33CFE1ADD7F5100A370C5 /* dribbble_debutsTests.m */; };
 		90B33D0C1ADD870000A370C5 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 90B33D0B1ADD870000A370C5 /* bg.png */; };
 		90B33D0E1ADD88BE00A370C5 /* dribbble-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 90B33D0D1ADD88BE00A370C5 /* dribbble-logo.png */; };
+		90B33D111ADD9A6500A370C5 /* human.png in Resources */ = {isa = PBXBuildFile; fileRef = 90B33D0F1ADD9A6500A370C5 /* human.png */; };
+		90B33D121ADD9A6500A370C5 /* shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 90B33D101ADD9A6500A370C5 /* shadow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		90B33CFE1ADD7F5100A370C5 /* dribbble_debutsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = dribbble_debutsTests.m; sourceTree = "<group>"; };
 		90B33D0B1ADD870000A370C5 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg.png; path = assets/bg.png; sourceTree = "<group>"; };
 		90B33D0D1ADD88BE00A370C5 /* dribbble-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dribbble-logo.png"; path = "assets/dribbble-logo.png"; sourceTree = "<group>"; };
+		90B33D0F1ADD9A6500A370C5 /* human.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = human.png; sourceTree = "<group>"; };
+		90B33D101ADD9A6500A370C5 /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +138,8 @@
 		90B33D0A1ADD86D300A370C5 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				90B33D0F1ADD9A6500A370C5 /* human.png */,
+				90B33D101ADD9A6500A370C5 /* shadow.png */,
 				90B33D0D1ADD88BE00A370C5 /* dribbble-logo.png */,
 				90B33D0B1ADD870000A370C5 /* bg.png */,
 			);
@@ -240,6 +246,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				90B33CEE1ADD7F5100A370C5 /* Main.storyboard in Resources */,
+				90B33D111ADD9A6500A370C5 /* human.png in Resources */,
+				90B33D121ADD9A6500A370C5 /* shadow.png in Resources */,
 				90B33CF31ADD7F5100A370C5 /* LaunchScreen.xib in Resources */,
 				90B33D0C1ADD870000A370C5 /* bg.png in Resources */,
 				90B33D0E1ADD88BE00A370C5 /* dribbble-logo.png in Resources */,

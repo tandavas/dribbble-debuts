@@ -19,6 +19,9 @@
 CGFloat screenWidth;
 CGFloat screenHeight;
 
+UIImage *human;
+UIImageView *humanView;
+
 @implementation ViewController
 
 - (void)viewDidLoad
@@ -30,10 +33,15 @@ CGFloat screenHeight;
     screenWidth = screenRect.size.width;
     screenHeight = screenRect.size.height;
     
-    
+    // Set up assets
     [self setUpBackground];
     [self addDribbbleLogo];
+    [self setUpHuman];
 }
+
+#pragma mark - Animations
+
+#pragma mark - Assets set up
 
 - (void)setUpBackground
 {
@@ -41,6 +49,13 @@ CGFloat screenHeight;
     UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
     bgImageView.image = bgImage;
     [self.view addSubview:bgImageView];
+}
+
+- (void)setUpHuman
+{
+    human = [UIImage imageNamed:@"human"];
+    humanView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, human.size.width, human.size.height)];
+    humanView.image = human;
 }
 
 - (void)addDribbbleLogo
@@ -58,9 +73,16 @@ CGFloat screenHeight;
     [self fadeInImage:dribbleLogoView];
 }
 
+- (void)generateFrontRowHumans
+{
+    
+}
+
+#pragma mark - Utilities
+
 - (void)fadeInImage:(UIImageView *)imageView
 {
-    [UIView animateWithDuration:1.4
+    [UIView animateWithDuration:2
                           delay:0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
