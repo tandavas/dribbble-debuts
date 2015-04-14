@@ -43,6 +43,7 @@ NSMutableArray *humanInnerBound;
     [self setUpHuman];
     [self generateOuterBoundHuman];
     [self generateMediumBoundHuman];
+    [self generateInnerBoundHuman];
 }
 
 #pragma mark - Animations
@@ -57,7 +58,6 @@ NSMutableArray *humanInnerBound;
     [self setUpOuterBoundHuman];
     [self setUpMediumBoundHuman];
     [self setUpInnerBoundHuman];
-    [self generateInnerBoundHuman];
 }
 
 - (void)setUpOuterBoundHuman
@@ -246,6 +246,11 @@ NSMutableArray *humanInnerBound;
         
         [self.view addSubview:humanView];
     }
+}
+
+- (void)generatePickedHuman
+{
+    
 }
 
 #pragma mark - Assets set up
