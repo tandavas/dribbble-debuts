@@ -21,6 +21,7 @@ CGFloat screenWidth;
 CGFloat screenHeight;
 
 UIImage *humanImage;
+UIImage *shadowImage;
 NSMutableArray *humanOuterBoundPosition;
 
 @implementation ViewController
@@ -56,7 +57,13 @@ NSMutableArray *humanOuterBoundPosition;
 - (void)setUpHuman
 {
     humanImage = [UIImage imageNamed:@"human"];
+    shadowImage = [UIImage imageNamed:@"shadow"];
     
+    [self generateOuterBoundHuman];
+}
+
+- (void)generateOuterBoundHuman
+{
     // Create a list of position of humans
     humanOuterBoundPosition = [[NSMutableArray alloc] init];
     
@@ -69,7 +76,10 @@ NSMutableArray *humanOuterBoundPosition;
     human = [[Human alloc] initWithPositionX:258 andPositionX:627 andWidth:16];
     [humanOuterBoundPosition addObject:human];
     human = [[Human alloc] initWithPositionX:347 andPositionX:644 andWidth:17];
-    [humanOuterBoundPosition addObject:human];    
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:367 andPositionX:380 andWidth:13];
+    [humanOuterBoundPosition addObject:human];
+
 }
 
 - (void)addDribbbleLogo
@@ -97,12 +107,28 @@ NSMutableArray *humanOuterBoundPosition;
     for (Human *human in humanOuterBoundPosition)
     {
         // Generate an UIImageview for each human with its scale according to width
-        UIImage *scaledHumanImage = [self imageWithImage:humanImage scaledToWidth:human.width];
+        NSDictionary *scaledImages = [self scaleHuman:humanImage scaledToWidth:human.width];
+        
+        // Obtain the scaled human and shadow images from the returned dictionary
+        UIImage *scaledHumanImg = [scaledImages objectForKey:@"human"];
+        UIImage *scaledShadowImg = [scaledImages objectForKey:@"shadow"];
+        
+        // Add the scaled shadow to the view (Add the shadow first so that the shadow is behind the human)
+        CGFloat shadowPosX = human.positionX + scaledHumanImg.size.width * 0.1;
+        CGFloat shadowPosY = human.positionY + scaledHumanImg.size.height * 0.9;
+        UIImageView *shadowView = [[UIImageView alloc] initWithFrame:CGRectMake(shadowPosX,
+                                                                                shadowPosY,
+                                                                                scaledShadowImg.size.width,
+                                                                                scaledShadowImg.size.height)];
+        shadowView.image = scaledShadowImg;
+        [self.view addSubview:shadowView];
+        
+        // Add the scaled human to the view
         UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
                                                                                human.positionY,
-                                                                               scaledHumanImage.size.width,
-                                                                               scaledHumanImage.size.height)];
-        humanView.image = scaledHumanImage;
+                                                                               scaledHumanImg.size.width,
+                                                                               scaledHumanImg.size.height)];
+        humanView.image = scaledHumanImg;
         [self.view addSubview:humanView];
     }
 }
@@ -119,19 +145,35 @@ NSMutableArray *humanOuterBoundPosition;
                      } completion:NULL];
 }
 
-- (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToWidth:(float)newWidth
+- (NSDictionary*)scaleHuman:(UIImage*)sourceImage scaledToWidth:(float)humanNewWidth
 {
-    // Scale the image according to the specify width
-    float oldWidth = sourceImage.size.width;
-    float scaleFactor = newWidth / oldWidth;
+    // Get the image scale factor
+    float humanOldWidth = sourceImage.size.width;
+    float scaleFactor = humanNewWidth / humanOldWidth;
     
-    float newHeight = sourceImage.size.height * scaleFactor;
+    // Scale the human image according to the specify width
+    float humanNewHeight = sourceImage.size.height * scaleFactor;
     
-    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-    [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsBeginImageContext(CGSizeMake(humanNewWidth, humanNewHeight));
+    [sourceImage drawInRect:CGRectMake(0, 0, humanNewWidth, humanNewHeight)];
+    UIImage *newHumanImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return newImage;
+    
+    // Scale the shadow image according to the scale
+    float shadowNewWidth = shadowImage.size.width * scaleFactor;
+    float shadowNewHeight = shadowImage.size.height * scaleFactor;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(shadowNewWidth, shadowNewHeight));
+    [shadowImage drawInRect:CGRectMake(0, 0, shadowNewWidth, shadowNewHeight)];
+    UIImage *newShadowImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    // Generate a dictionary to return a the scaled human and shadow image
+    NSMutableDictionary *humanDict = [NSMutableDictionary dictionaryWithCapacity:2];
+    [humanDict setObject:newHumanImage forKey:@"human"];
+    [humanDict setObject:newShadowImage forKey:@"shadow"];
+    
+    return humanDict;
 }
 
 - (void)didReceiveMemoryWarning
