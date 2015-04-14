@@ -52,7 +52,20 @@ CGFloat screenHeight;
                                                                                  dribbleLogo.size.width,
                                                                                  dribbleLogo.size.height)];
     dribbleLogoView.image = dribbleLogo;
+    dribbleLogoView.alpha = 0;
     [self.view addSubview:dribbleLogoView];
+    
+    [self fadeInImage:dribbleLogoView];
+}
+
+- (void)fadeInImage:(UIImageView *)imageView
+{
+    [UIView animateWithDuration:1.4
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         imageView.alpha = 1.0;
+                     } completion:NULL];
 }
 
 - (void)didReceiveMemoryWarning
