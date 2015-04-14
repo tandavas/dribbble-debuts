@@ -44,6 +44,7 @@ NSMutableArray *humanInnerBound;
     [self generateOuterBoundHuman];
     [self generateMediumBoundHuman];
     [self generateInnerBoundHuman];
+    [self generatePickedHuman];
 }
 
 #pragma mark - Animations
@@ -250,7 +251,24 @@ NSMutableArray *humanInnerBound;
 
 - (void)generatePickedHuman
 {
+    UIImage *pickedHumanImage = [UIImage imageNamed:@"picked-human"];
+    UIImage *pickedHumanShadowImage = [UIImage imageNamed:@"picked-human-shadow"];
     
+    // Add the picked human shadow
+    UIImageView *pickedHumanShadowView = [[UIImageView alloc] initWithFrame:CGRectMake(179,
+                                                                                       407,
+                                                                                       pickedHumanShadowImage.size.width,
+                                                                                       pickedHumanShadowImage.size.height)];
+    pickedHumanShadowView.image = pickedHumanShadowImage;
+    [self.view addSubview:pickedHumanShadowView];
+    
+    // Add the picked human
+    UIImageView *pickedHumanView = [[UIImageView alloc] initWithFrame:CGRectMake(180,
+                                                                                 383,
+                                                                                 pickedHumanImage.size.width,
+                                                                                 pickedHumanImage.size.height)];
+    pickedHumanView.image = pickedHumanImage;
+    [self.view addSubview:pickedHumanView];
 }
 
 #pragma mark - Assets set up
