@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <pop/POP.h>
+#import "Human.h"
 
 // Thanks to www.stackoverflow.com/a/3532264/1031955
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
@@ -19,7 +20,7 @@
 CGFloat screenWidth;
 CGFloat screenHeight;
 
-UIImage *human;
+UIImage *humanImage;
 NSMutableArray *humanOuterBoundPosition;
 
 @implementation ViewController
@@ -54,21 +55,27 @@ NSMutableArray *humanOuterBoundPosition;
 
 - (void)setUpHuman
 {
-    human = [UIImage imageNamed:@"human"];
+    humanImage = [UIImage imageNamed:@"human"];
     
     // Create a list of position of humans
     humanOuterBoundPosition = [[NSMutableArray alloc] init];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(16, 604)]];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(162, 601)]];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(258, 627)]];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(347, 644)]];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
-    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
+    
+    Human *human = [[Human alloc] initWithPositionX:16 andPositionX:604 andHeight:16];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andHeight:16];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andHeight:16];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:162 andPositionX:601 andHeight:16];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andHeight:16];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:258 andPositionX:627 andHeight:16];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:347 andPositionX:644 andHeight:16];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andHeight:16];
+    [humanOuterBoundPosition addObject:human];
     
 }
 
@@ -94,15 +101,14 @@ NSMutableArray *humanOuterBoundPosition;
 {
     
     // Iterate through the list of positions to generate humans
-    for (NSValue *positionObj in humanOuterBoundPosition)
+    for (Human *human in humanOuterBoundPosition)
     {
-        CGPoint position = positionObj.CGPointValue;
-        NSLog(@"x = %f   y = %f", position.x, position.y);
-        UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(position.x,
-                                                                               position.y,
-                                                                               human.size.width,
-                                                                               human.size.height)];
-        humanView.image = human;
+        // Generate an UIImageview for each human with its scale
+        UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
+                                                                               human.positionY,
+                                                                               humanImage.size.width,
+                                                                               humanImage.size.height)];
+        humanView.image = humanImage;
         [self.view addSubview:humanView];
     }
 }

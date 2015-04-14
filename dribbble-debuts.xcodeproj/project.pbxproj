@@ -19,6 +19,7 @@
 		90B33D0E1ADD88BE00A370C5 /* dribbble-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 90B33D0D1ADD88BE00A370C5 /* dribbble-logo.png */; };
 		90B33D111ADD9A6500A370C5 /* human.png in Resources */ = {isa = PBXBuildFile; fileRef = 90B33D0F1ADD9A6500A370C5 /* human.png */; };
 		90B33D121ADD9A6500A370C5 /* shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 90B33D101ADD9A6500A370C5 /* shadow.png */; };
+		90FE45AE1ADDA46000BF0E56 /* Human.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FE45AD1ADDA46000BF0E56 /* Human.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,8 @@
 		90B33D0D1ADD88BE00A370C5 /* dribbble-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dribbble-logo.png"; path = "assets/dribbble-logo.png"; sourceTree = "<group>"; };
 		90B33D0F1ADD9A6500A370C5 /* human.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = human.png; sourceTree = "<group>"; };
 		90B33D101ADD9A6500A370C5 /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadow.png; sourceTree = "<group>"; };
+		90FE45AC1ADDA46000BF0E56 /* Human.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Human.h; sourceTree = "<group>"; };
+		90FE45AD1ADDA46000BF0E56 /* Human.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Human.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +102,8 @@
 				90B33D0A1ADD86D300A370C5 /* assets */,
 				90B33CE61ADD7F5100A370C5 /* AppDelegate.h */,
 				90B33CE71ADD7F5100A370C5 /* AppDelegate.m */,
+				90FE45AC1ADDA46000BF0E56 /* Human.h */,
+				90FE45AD1ADDA46000BF0E56 /* Human.m */,
 				90B33CE91ADD7F5100A370C5 /* ViewController.h */,
 				90B33CEA1ADD7F5100A370C5 /* ViewController.m */,
 				90B33CEC1ADD7F5100A370C5 /* Main.storyboard */,
@@ -305,6 +310,7 @@
 				90B33CEB1ADD7F5100A370C5 /* ViewController.m in Sources */,
 				90B33CE81ADD7F5100A370C5 /* AppDelegate.m in Sources */,
 				90B33CE51ADD7F5100A370C5 /* main.m in Sources */,
+				90FE45AE1ADDA46000BF0E56 /* Human.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
