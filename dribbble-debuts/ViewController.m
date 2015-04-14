@@ -24,6 +24,7 @@ UIImage *humanImage;
 UIImage *shadowImage;
 NSMutableArray *humanOuterBound;
 NSMutableArray *humanMiddleBound;
+NSMutableArray *humanInnerBound;
 
 @implementation ViewController
 
@@ -55,6 +56,8 @@ NSMutableArray *humanMiddleBound;
     
     [self setUpOuterBoundHuman];
     [self setUpMediumBoundHuman];
+    [self setUpInnerBoundHuman];
+    [self generateInnerBoundHuman];
 }
 
 - (void)setUpOuterBoundHuman
@@ -115,6 +118,31 @@ NSMutableArray *humanMiddleBound;
     [humanMiddleBound addObject:human];
     human = [[Human alloc] initWithPositionX:110 andPositionX:211 andWidth:11];
     [humanMiddleBound addObject:human];
+}
+
+- (void)setUpInnerBoundHuman
+{
+    // Create a list of position of humans
+    humanInnerBound = [[NSMutableArray alloc] init];
+    
+    Human *human = [[Human alloc] initWithPositionX:299 andPositionX:397 andWidth:13];
+    [humanInnerBound addObject:human];
+    human = [[Human alloc] initWithPositionX:80 andPositionX:421 andWidth:13];
+    [humanInnerBound addObject:human];
+    human = [[Human alloc] initWithPositionX:281 andPositionX:463 andWidth:14];
+    [humanInnerBound addObject:human];
+    human = [[Human alloc] initWithPositionX:135 andPositionX:497 andWidth:14];
+    [humanInnerBound addObject:human];
+    human = [[Human alloc] initWithPositionX:302 andPositionX:314 andWidth:13];
+    [humanInnerBound addObject:human];
+    human = [[Human alloc] initWithPositionX:240 andPositionX:269 andWidth:13];
+    [humanInnerBound addObject:human];
+    human = [[Human alloc] initWithPositionX:164 andPositionX:259 andWidth:13];
+    [humanInnerBound addObject:human];
+    human = [[Human alloc] initWithPositionX:48 andPositionX:346 andWidth:13];
+    [humanInnerBound addObject:human];
+    human = [[Human alloc] initWithPositionX:88 andPositionX:289 andWidth:13];
+    [humanInnerBound addObject:human];
 }
 
 - (void)generateOuterBoundHuman
@@ -185,6 +213,41 @@ NSMutableArray *humanMiddleBound;
     }
 }
 
+- (void)generateInnerBoundHuman
+{
+    // Iterate through the list of positions to generate humans
+    for (Human *human in humanInnerBound)
+    {
+        // Generate an UIImageview for each human with its scale according to width
+        NSDictionary *scaledImages = [self scaleHuman:humanImage scaledToWidth:human.width];
+        
+        // Obtain the scaled human and shadow images from the returned dictionary
+        UIImage *scaledHumanImg = [scaledImages objectForKey:@"human"];
+        UIImage *scaledShadowImg = [scaledImages objectForKey:@"shadow"];
+        
+        // Add the scaled shadow to the view (Add the shadow first so that the shadow is behind the human)
+        CGFloat shadowPosX = human.positionX + scaledHumanImg.size.width * 0.1;
+        CGFloat shadowPosY = human.positionY + scaledHumanImg.size.height * 0.9;
+        UIImageView *shadowView = [[UIImageView alloc] initWithFrame:CGRectMake(shadowPosX,
+                                                                                shadowPosY,
+                                                                                scaledShadowImg.size.width,
+                                                                                scaledShadowImg.size.height)];
+        shadowView.image = scaledShadowImg;
+        [self.view addSubview:shadowView];
+        
+        // Add the scaled human to the view
+        UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
+                                                                               human.positionY,
+                                                                               scaledHumanImg.size.width,
+                                                                               scaledHumanImg.size.height)];
+        // Set the color of the medium bound human
+        humanView.image = [scaledHumanImg imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [humanView setTintColor:UIColorFromRGB(0xF2F6F6)];
+        
+        [self.view addSubview:humanView];
+    }
+}
+
 #pragma mark - Assets set up
 
 - (void)setUpBackground
@@ -200,7 +263,7 @@ NSMutableArray *humanMiddleBound;
     UIImage *dribbleLogo = [UIImage imageNamed:@"dribbble-logo"];
     CGFloat screenCenterX = (screenWidth/2) - (dribbleLogo.size.width/2);
     UIImageView *dribbleLogoView = [[UIImageView alloc] initWithFrame:CGRectMake(screenCenterX,
-                                                                                 50,
+                                                                                 45,
                                                                                  dribbleLogo.size.width,
                                                                                  dribbleLogo.size.height)];
     dribbleLogoView.image = dribbleLogo;
