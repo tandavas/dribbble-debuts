@@ -16,12 +16,43 @@
 
 @end
 
+CGFloat screenWidth;
+CGFloat screenHeight;
+
 @implementation ViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    // Get the screen width and height
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    screenWidth = screenRect.size.width;
+    screenHeight = screenRect.size.height;
+    
+    
+    [self setUpBackground];
+    [self addDribbbleLogo];
+}
+
+- (void)setUpBackground
+{
+    UIImage *bgImage = [UIImage imageNamed:@"bg"];
+    UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
+    bgImageView.image = bgImage;
+    [self.view addSubview:bgImageView];
+}
+
+- (void)addDribbbleLogo
+{
+    UIImage *dribbleLogo = [UIImage imageNamed:@"dribbble-logo"];
+    CGFloat screenCenterX = (screenWidth/2) - (dribbleLogo.size.width/2);
+    UIImageView *dribbleLogoView = [[UIImageView alloc] initWithFrame:CGRectMake(screenCenterX,
+                                                                                 50,
+                                                                                 dribbleLogo.size.width,
+                                                                                 dribbleLogo.size.height)];
+    dribbleLogoView.image = dribbleLogo;
+    [self.view addSubview:dribbleLogoView];
 }
 
 - (void)didReceiveMemoryWarning
