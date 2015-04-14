@@ -20,7 +20,7 @@ CGFloat screenWidth;
 CGFloat screenHeight;
 
 UIImage *human;
-UIImageView *humanView;
+NSMutableArray *humanOuterBoundPosition;
 
 @implementation ViewController
 
@@ -37,6 +37,7 @@ UIImageView *humanView;
     [self setUpBackground];
     [self addDribbbleLogo];
     [self setUpHuman];
+    [self generateOuterBoundHumans];
 }
 
 #pragma mark - Animations
@@ -54,8 +55,21 @@ UIImageView *humanView;
 - (void)setUpHuman
 {
     human = [UIImage imageNamed:@"human"];
-    humanView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, human.size.width, human.size.height)];
-    humanView.image = human;
+    
+    // Create a list of position of humans
+    humanOuterBoundPosition = [[NSMutableArray alloc] init];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(16, 604)]];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(162, 601)]];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(258, 627)]];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(347, 644)]];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
+    [humanOuterBoundPosition addObject:[NSValue valueWithCGPoint:CGPointMake(81, 623)]];
+    
 }
 
 - (void)addDribbbleLogo
@@ -67,15 +81,30 @@ UIImageView *humanView;
                                                                                  dribbleLogo.size.width,
                                                                                  dribbleLogo.size.height)];
     dribbleLogoView.image = dribbleLogo;
+    
+    // Make the image transparent at first in order to fade in
     dribbleLogoView.alpha = 0;
     [self.view addSubview:dribbleLogoView];
     
+    // Fade in the image
     [self fadeInImage:dribbleLogoView];
 }
 
-- (void)generateFrontRowHumans
+- (void)generateOuterBoundHumans
 {
     
+    // Iterate through the list of positions to generate humans
+    for (NSValue *positionObj in humanOuterBoundPosition)
+    {
+        CGPoint position = positionObj.CGPointValue;
+        NSLog(@"x = %f   y = %f", position.x, position.y);
+        UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(position.x,
+                                                                               position.y,
+                                                                               human.size.width,
+                                                                               human.size.height)];
+        humanView.image = human;
+        [self.view addSubview:humanView];
+    }
 }
 
 #pragma mark - Utilities
