@@ -79,7 +79,16 @@ NSMutableArray *humanOuterBoundPosition;
     [humanOuterBoundPosition addObject:human];
     human = [[Human alloc] initWithPositionX:367 andPositionX:380 andWidth:13];
     [humanOuterBoundPosition addObject:human];
-
+    human = [[Human alloc] initWithPositionX:355 andPositionX:240 andWidth:13];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:57 andPositionX:163 andWidth:11];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:295 andPositionX:162 andWidth:11];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:111 andPositionX:118 andWidth:9];
+    [humanOuterBoundPosition addObject:human];
+    human = [[Human alloc] initWithPositionX:336 andPositionX:127 andWidth:9];
+    [humanOuterBoundPosition addObject:human];
 }
 
 - (void)addDribbbleLogo
