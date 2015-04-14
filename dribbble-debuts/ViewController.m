@@ -22,7 +22,8 @@ CGFloat screenHeight;
 
 UIImage *humanImage;
 UIImage *shadowImage;
-NSMutableArray *humanOuterBoundPosition;
+NSMutableArray *humanOuterBound;
+NSMutableArray *humanMiddleBound;
 
 @implementation ViewController
 
@@ -39,48 +40,149 @@ NSMutableArray *humanOuterBoundPosition;
     [self setUpBackground];
     [self addDribbbleLogo];
     [self setUpHuman];
-    [self generateOuterBoundHumans];
+    [self generateOuterBoundHuman];
+    [self generateMediumBoundHuman];
 }
 
 #pragma mark - Animations
 
-#pragma mark - Human generation
+#pragma mark - Human set up
 
 - (void)setUpHuman
 {
     humanImage = [UIImage imageNamed:@"human"];
     shadowImage = [UIImage imageNamed:@"shadow"];
     
-    [self generateOuterBoundHuman];
+    [self setUpOuterBoundHuman];
+    [self setUpMediumBoundHuman];
+}
+
+- (void)setUpOuterBoundHuman
+{
+    // Create a list of position of humans
+    humanOuterBound = [[NSMutableArray alloc] init];
+    
+    Human *human = [[Human alloc] initWithPositionX:16 andPositionX:604 andWidth:11];
+    [humanOuterBound addObject:human];
+    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andWidth:16];
+    [humanOuterBound addObject:human];
+    human = [[Human alloc] initWithPositionX:162 andPositionX:601 andWidth:16];
+    [humanOuterBound addObject:human];
+    human = [[Human alloc] initWithPositionX:258 andPositionX:627 andWidth:16];
+    [humanOuterBound addObject:human];
+    human = [[Human alloc] initWithPositionX:347 andPositionX:644 andWidth:17];
+    [humanOuterBound addObject:human];
+    human = [[Human alloc] initWithPositionX:367 andPositionX:380 andWidth:13];
+    [humanOuterBound addObject:human];
+    human = [[Human alloc] initWithPositionX:355 andPositionX:240 andWidth:13];
+    [humanOuterBound addObject:human];
+    human = [[Human alloc] initWithPositionX:57 andPositionX:163 andWidth:11];
+    [humanOuterBound addObject:human];
+    human = [[Human alloc] initWithPositionX:295 andPositionX:162 andWidth:11];
+    [humanOuterBound addObject:human];
+    human = [[Human alloc] initWithPositionX:111 andPositionX:118 andWidth:9];
+    [humanOuterBound addObject:human];
+    human = [[Human alloc] initWithPositionX:336 andPositionX:127 andWidth:9];
+    [humanOuterBound addObject:human];
+}
+
+- (void)setUpMediumBoundHuman
+{
+    // Create a list of position of humans
+    humanMiddleBound = [[NSMutableArray alloc] init];
+    
+    Human *human = [[Human alloc] initWithPositionX:203 andPositionX:550 andWidth:15];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:298 andPositionX:567 andWidth:15];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:344 andPositionX:515 andWidth:14];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:59 andPositionX:537 andWidth:15];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:12 andPositionX:395 andWidth:13];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:30 andPositionX:463 andWidth:14];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:353 andPositionX:442 andWidth:14];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:15 andPositionX:223 andWidth:12];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:-2.5 andPositionX:283 andWidth:12];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:213 andPositionX:200 andWidth:12];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:296 andPositionX:240 andWidth:12];
+    [humanMiddleBound addObject:human];
+    human = [[Human alloc] initWithPositionX:110 andPositionX:211 andWidth:11];
+    [humanMiddleBound addObject:human];
 }
 
 - (void)generateOuterBoundHuman
 {
-    // Create a list of position of humans
-    humanOuterBoundPosition = [[NSMutableArray alloc] init];
     
-    Human *human = [[Human alloc] initWithPositionX:16 andPositionX:604 andWidth:11];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andWidth:16];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:162 andPositionX:601 andWidth:16];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:258 andPositionX:627 andWidth:16];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:347 andPositionX:644 andWidth:17];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:367 andPositionX:380 andWidth:13];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:355 andPositionX:240 andWidth:13];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:57 andPositionX:163 andWidth:11];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:295 andPositionX:162 andWidth:11];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:111 andPositionX:118 andWidth:9];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:336 andPositionX:127 andWidth:9];
-    [humanOuterBoundPosition addObject:human];
+    // Iterate through the list of positions to generate humans
+    for (Human *human in humanOuterBound)
+    {
+        // Generate an UIImageview for each human with its scale according to width
+        NSDictionary *scaledImages = [self scaleHuman:humanImage scaledToWidth:human.width];
+        
+        // Obtain the scaled human and shadow images from the returned dictionary
+        UIImage *scaledHumanImg = [scaledImages objectForKey:@"human"];
+        UIImage *scaledShadowImg = [scaledImages objectForKey:@"shadow"];
+        
+        // Add the scaled shadow to the view (Add the shadow first so that the shadow is behind the human)
+        CGFloat shadowPosX = human.positionX + scaledHumanImg.size.width * 0.1;
+        CGFloat shadowPosY = human.positionY + scaledHumanImg.size.height * 0.9;
+        UIImageView *shadowView = [[UIImageView alloc] initWithFrame:CGRectMake(shadowPosX,
+                                                                                shadowPosY,
+                                                                                scaledShadowImg.size.width,
+                                                                                scaledShadowImg.size.height)];
+        shadowView.image = scaledShadowImg;
+        [self.view addSubview:shadowView];
+        
+        // Add the scaled human to the view
+        UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
+                                                                               human.positionY,
+                                                                               scaledHumanImg.size.width,
+                                                                               scaledHumanImg.size.height)];
+        humanView.image = scaledHumanImg;
+        [self.view addSubview:humanView];
+    }
+}
+
+- (void)generateMediumBoundHuman
+{
+    // Iterate through the list of positions to generate humans
+    for (Human *human in humanMiddleBound)
+    {
+        // Generate an UIImageview for each human with its scale according to width
+        NSDictionary *scaledImages = [self scaleHuman:humanImage scaledToWidth:human.width];
+        
+        // Obtain the scaled human and shadow images from the returned dictionary
+        UIImage *scaledHumanImg = [scaledImages objectForKey:@"human"];
+        UIImage *scaledShadowImg = [scaledImages objectForKey:@"shadow"];
+        
+        // Add the scaled shadow to the view (Add the shadow first so that the shadow is behind the human)
+        CGFloat shadowPosX = human.positionX + scaledHumanImg.size.width * 0.1;
+        CGFloat shadowPosY = human.positionY + scaledHumanImg.size.height * 0.9;
+        UIImageView *shadowView = [[UIImageView alloc] initWithFrame:CGRectMake(shadowPosX,
+                                                                                shadowPosY,
+                                                                                scaledShadowImg.size.width,
+                                                                                scaledShadowImg.size.height)];
+        shadowView.image = scaledShadowImg;
+        [self.view addSubview:shadowView];
+        
+        // Add the scaled human to the view
+        UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
+                                                                               human.positionY,
+                                                                               scaledHumanImg.size.width,
+                                                                               scaledHumanImg.size.height)];
+        // Set the color of the medium bound human
+        humanView.image = [scaledHumanImg imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [humanView setTintColor:UIColorFromRGB(0xECF1F2)];
+        
+        [self.view addSubview:humanView];
+    }
 }
 
 #pragma mark - Assets set up
@@ -109,39 +211,6 @@ NSMutableArray *humanOuterBoundPosition;
     
     // Fade in the image
     [self fadeInImage:dribbleLogoView];
-}
-
-- (void)generateOuterBoundHumans
-{
-    
-    // Iterate through the list of positions to generate humans
-    for (Human *human in humanOuterBoundPosition)
-    {
-        // Generate an UIImageview for each human with its scale according to width
-        NSDictionary *scaledImages = [self scaleHuman:humanImage scaledToWidth:human.width];
-        
-        // Obtain the scaled human and shadow images from the returned dictionary
-        UIImage *scaledHumanImg = [scaledImages objectForKey:@"human"];
-        UIImage *scaledShadowImg = [scaledImages objectForKey:@"shadow"];
-        
-        // Add the scaled shadow to the view (Add the shadow first so that the shadow is behind the human)
-        CGFloat shadowPosX = human.positionX + scaledHumanImg.size.width * 0.1;
-        CGFloat shadowPosY = human.positionY + scaledHumanImg.size.height * 0.9;
-        UIImageView *shadowView = [[UIImageView alloc] initWithFrame:CGRectMake(shadowPosX,
-                                                                                shadowPosY,
-                                                                                scaledShadowImg.size.width,
-                                                                                scaledShadowImg.size.height)];
-        shadowView.image = scaledShadowImg;
-        [self.view addSubview:shadowView];
-        
-        // Add the scaled human to the view
-        UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
-                                                                               human.positionY,
-                                                                               scaledHumanImg.size.width,
-                                                                               scaledHumanImg.size.height)];
-        humanView.image = scaledHumanImg;
-        [self.view addSubview:humanView];
-    }
 }
 
 #pragma mark - Utilities
