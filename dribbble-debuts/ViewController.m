@@ -44,15 +44,7 @@ NSMutableArray *humanOuterBoundPosition;
 
 #pragma mark - Animations
 
-#pragma mark - Assets set up
-
-- (void)setUpBackground
-{
-    UIImage *bgImage = [UIImage imageNamed:@"bg"];
-    UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
-    bgImageView.image = bgImage;
-    [self.view addSubview:bgImageView];
-}
+#pragma mark - Human generation
 
 - (void)setUpHuman
 {
@@ -89,6 +81,16 @@ NSMutableArray *humanOuterBoundPosition;
     [humanOuterBoundPosition addObject:human];
     human = [[Human alloc] initWithPositionX:336 andPositionX:127 andWidth:9];
     [humanOuterBoundPosition addObject:human];
+}
+
+#pragma mark - Assets set up
+
+- (void)setUpBackground
+{
+    UIImage *bgImage = [UIImage imageNamed:@"bg"];
+    UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
+    bgImageView.image = bgImage;
+    [self.view addSubview:bgImageView];
 }
 
 - (void)addDribbbleLogo
