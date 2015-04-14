@@ -64,19 +64,12 @@ NSMutableArray *humanOuterBoundPosition;
     [humanOuterBoundPosition addObject:human];
     human = [[Human alloc] initWithPositionX:81 andPositionX:623 andWidth:16];
     [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andWidth:10];
-    [humanOuterBoundPosition addObject:human];
     human = [[Human alloc] initWithPositionX:162 andPositionX:601 andWidth:16];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andWidth:16];
     [humanOuterBoundPosition addObject:human];
     human = [[Human alloc] initWithPositionX:258 andPositionX:627 andWidth:16];
     [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:347 andPositionX:644 andWidth:5];
-    [humanOuterBoundPosition addObject:human];
-    human = [[Human alloc] initWithPositionX:81 andPositionX:623 andWidth:12];
-    [humanOuterBoundPosition addObject:human];
-    
+    human = [[Human alloc] initWithPositionX:347 andPositionX:644 andWidth:17];
+    [humanOuterBoundPosition addObject:human];    
 }
 
 - (void)addDribbbleLogo
@@ -103,15 +96,12 @@ NSMutableArray *humanOuterBoundPosition;
     // Iterate through the list of positions to generate humans
     for (Human *human in humanOuterBoundPosition)
     {
-        
+        // Generate an UIImageview for each human with its scale according to width
         UIImage *scaledHumanImage = [self imageWithImage:humanImage scaledToWidth:human.width];
-        // Generate an UIImageview for each human with its scale
         UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
                                                                                human.positionY,
                                                                                scaledHumanImage.size.width,
                                                                                scaledHumanImage.size.height)];
-        
-        NSLog(@"%f %f", scaledHumanImage.size.height, scaledHumanImage.size.width);
         humanView.image = scaledHumanImage;
         [self.view addSubview:humanView];
     }
@@ -131,6 +121,7 @@ NSMutableArray *humanOuterBoundPosition;
 
 - (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToWidth:(float)newWidth
 {
+    // Scale the image according to the specify width
     float oldWidth = sourceImage.size.width;
     float scaleFactor = newWidth / oldWidth;
     
