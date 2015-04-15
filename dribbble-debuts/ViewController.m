@@ -287,6 +287,7 @@ NSMutableArray *humanInnerBound;
     // Animate the human fall down effect
     [self fallHumanDown:pickedHumanView from:180 to:383];
     
+    [self performSelector:@selector(addEnvelope) withObject:nil afterDelay:3.0];
     [self performSelector:@selector(changeToDribbleColor:) withObject:pickedHumanView afterDelay:3.0];
 }
 
@@ -319,16 +320,31 @@ NSMutableArray *humanInnerBound;
     [self.view addSubview:dribbleLogoView];
     
     // Fade in the image
-    [self fadeInImage:dribbleLogoView];
+    [self fadeInImage:dribbleLogoView withDelay:4.0];
     
     [self performSelector:@selector(changeToDribbleColor:) withObject:dribbleLogoView afterDelay:3.0];
 }
 
+- (void)addEnvelope
+{
+    UIImage *envelopeImage = [UIImage imageNamed:@"envelope"];
+    UIImageView *envelopeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(205,
+                                                                                   370,
+                                                                                   envelopeImage.size.width,
+                                                                                   envelopeImage.size.height)];
+    envelopeImageView.image = envelopeImage;
+    // Make the image transparent at first in order to fade in
+    envelopeImageView.alpha = 0;
+    [self.view addSubview: envelopeImageView];
+    
+    [self fadeInImage:envelopeImageView withDelay:3.0];
+}
+
 #pragma mark - Utilities
 
-- (void)fadeInImage:(UIImageView *)imageView
+- (void)fadeInImage:(UIImageView *)imageView withDelay:(CGFloat)delay
 {
-    [UIView animateWithDuration:4
+    [UIView animateWithDuration:delay
                           delay:0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
@@ -355,7 +371,7 @@ NSMutableArray *humanInnerBound;
     [humanView pop_addAnimation:fadeInAnimation forKey:@"fadeIn"];
 }
 
-- (NSDictionary*)scaleHuman:(UIImage *)sourceImage scaledToWidth:(float)humanNewWidth
+- (NSDictionary *)scaleHuman:(UIImage *)sourceImage scaledToWidth:(float)humanNewWidth
 {
     // Get the image scale factor
     float humanOldWidth = sourceImage.size.width;
