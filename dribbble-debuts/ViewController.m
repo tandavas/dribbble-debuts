@@ -288,7 +288,7 @@ NSMutableArray *humanInnerBound;
     [self fallHumanDown:pickedHumanView from:180 to:383];
     
     [self performSelector:@selector(addEnvelope) withObject:nil afterDelay:3.0];
-    [self performSelector:@selector(changeToDribbleColor:) withObject:pickedHumanView afterDelay:3.0];
+//    [self performSelector:@selector(changeToDribbleColor:) withObject:pickedHumanView afterDelay:3.0];
 }
 
 #pragma mark - Assets set up
@@ -322,13 +322,13 @@ NSMutableArray *humanInnerBound;
     // Fade in the image
     [self fadeInImage:dribbleLogoView withDelay:4.0];
     
-    [self performSelector:@selector(changeToDribbleColor:) withObject:dribbleLogoView afterDelay:3.0];
+//    [self performSelector:@selector(changeToDribbleColor:) withObject:dribbleLogoView afterDelay:3.0];
 }
 
 - (void)addEnvelope
 {
     UIImage *envelopeImage = [UIImage imageNamed:@"envelope"];
-    UIImageView *envelopeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(205,
+    UIImageView *envelopeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(208,
                                                                                    370,
                                                                                    envelopeImage.size.width,
                                                                                    envelopeImage.size.height)];
@@ -337,7 +337,40 @@ NSMutableArray *humanInnerBound;
     envelopeImageView.alpha = 0;
     [self.view addSubview: envelopeImageView];
     
-    [self fadeInImage:envelopeImageView withDelay:3.0];
+    // Fade in the envelope
+    [UIView animateWithDuration:1.0
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         envelopeImageView.alpha = 1.0;
+                     } completion:^(BOOL finished) {
+                         [self addExclamationMark];
+                     }];
+    
+    // Add exclamation mark
+}
+
+- (void)addExclamationMark
+{
+    // Add exclamation mark
+    UITextView *exclamationMark = [[UITextView alloc] initWithFrame:CGRectMake(190, 360, 10, 25)];
+    [exclamationMark setText:@"!"];
+    [exclamationMark setTextColor:UIColorFromRGB(0xECF1F2)];
+    [exclamationMark setFont:[UIFont fontWithName:@"AvenirNext-Bold" size:16]];
+    [exclamationMark setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview:exclamationMark];
+    
+    // Fade out the exclamation mark after 0.5 second
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:1.0
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             exclamationMark.alpha = 0.0;
+                         } completion:^(BOOL finished) {
+                             [exclamationMark removeFromSuperview];
+                         }];
+    });
 }
 
 #pragma mark - Utilities
