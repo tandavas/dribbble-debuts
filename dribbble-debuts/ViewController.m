@@ -32,6 +32,12 @@ UIImageView *pickedHumanView;
 UIImageView *dribbleLogoView;
 UIImageView *envelopeAndBallView;
 
+typedef NS_ENUM(NSInteger, viewTag) {
+    tagBackgroundView = 1,
+    tagPickedHumanView = 2,
+    tagDribbbleLogo = 3
+};
+
 @implementation ViewController
 
 - (void)viewDidLoad
@@ -273,6 +279,7 @@ UIImageView *envelopeAndBallView;
                                                                                        pickedHumanShadowImage.size.width,
                                                                                        pickedHumanShadowImage.size.height)];
     pickedHumanShadowView.image = pickedHumanShadowImage;
+    pickedHumanShadowView.tag = tagPickedHumanView;
     [self.view addSubview:pickedHumanShadowView];
     
     // Add the picked human
@@ -281,6 +288,7 @@ UIImageView *envelopeAndBallView;
                                                                                  pickedHumanImage.size.width,
                                                                                  pickedHumanImage.size.height)];
     
+    pickedHumanView.tag = tagPickedHumanView;
     // Set the color of the picked human to grey first
     pickedHumanView.image = [pickedHumanImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [pickedHumanView setTintColor:UIColorFromRGB(0xECF1F2)];
@@ -299,6 +307,7 @@ UIImageView *envelopeAndBallView;
     UIImage *bgImage = [UIImage imageNamed:@"bg"];
     UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
     bgImageView.image = bgImage;
+    bgImageView.tag = tagBackgroundView;
     [self.view addSubview:bgImageView];
 }
 
@@ -318,6 +327,7 @@ UIImageView *envelopeAndBallView;
     
     // Make the image transparent at first in order to fade in
     dribbleLogoView.alpha = 0;
+    dribbleLogoView.tag = tagDribbbleLogo;
     [self.view addSubview:dribbleLogoView];
     
     // Fade in the image
@@ -372,6 +382,63 @@ UIImageView *envelopeAndBallView;
     });
 }
 
+- (void)addThankYouText
+{
+    // Set up the text
+    UILabel *thankYouLabel = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth/2) - 95,
+                                                                       280,
+                                                                       250,
+                                                                       24)];
+    
+    [thankYouLabel setTextColor:UIColorFromRGB(0x1e1e1e)];
+    [thankYouLabel setBackgroundColor:[UIColor clearColor]];
+    [thankYouLabel setFont:[UIFont fontWithName: @"AvenirNext-Regular" size: 20.0f]];
+    [thankYouLabel setText:@"Thank you @kazzheng"];
+    [thankYouLabel setAlpha:0];
+    [self.view addSubview:thankYouLabel];
+    
+    UILabel *forPickingMeLabel = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth/2) - 125,
+                                                                           320,
+                                                                           450,
+                                                                           20)];
+    
+    [forPickingMeLabel setTextColor:[UIColor blackColor]];
+    [forPickingMeLabel setBackgroundColor:[UIColor clearColor]];
+    [forPickingMeLabel setFont:[UIFont fontWithName: @"AvenirNext-UltraLight" size: 16.0f]];
+    [forPickingMeLabel setText:@"for picking me for the Dribbble invite"];
+    [forPickingMeLabel setAlpha:0];
+    [self.view addSubview:forPickingMeLabel];
+    
+    // Fade in the text
+    [UIView animateWithDuration:2.0
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         thankYouLabel.alpha = 1.0;
+                     } completion:NULL];
+    // Fade in the text
+    [UIView animateWithDuration:4.0
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         forPickingMeLabel.alpha = 1.0;
+                     } completion:^(BOOL finished) {
+                         // Fade out both text
+                         [UIView animateWithDuration:2.0
+                                               delay:4.0
+                                             options:UIViewAnimationOptionCurveEaseIn
+                                          animations:^{
+                                              // Fade out all the views except bg to finish the app!
+                                              for (UIView *subView in self.view.subviews)
+                                              {
+                                                  [self fadeOutAllViewsExceptBg:subView];
+                                              }
+                                          } completion:^(BOOL finished) {
+                                              // THE APP IS DONE!
+                                          }];
+                     }];
+}
+
 #pragma mark - Animations
 
 - (void)transformEnvelopeToDribbbleBall
@@ -405,8 +472,23 @@ UIImageView *envelopeAndBallView;
     fadeInDribbbleBall.toValue = @(1.0);
     [envelopeAndBallView pop_addAnimation:fadeInDribbbleBall forKey:@"fadeInDribbbleBall"];
     
+    // Then fade out the dribbble immediately
+    POPBasicAnimation *fadeOutDribbbleBall = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+    fadeOutDribbbleBall.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    fadeOutDribbbleBall.toValue = @(0.0);
+    [envelopeAndBallView pop_addAnimation:fadeOutDribbbleBall forKey:@"fadeOutDribbbleBall"];
+    
+    // Fade in the color of the logo and the picked human
     [self performSelector:@selector(changeToDribbleColor:) withObject:pickedHumanView afterDelay:0.3];
     [self performSelector:@selector(changeToDribbleColor:) withObject:dribbleLogoView afterDelay:0.7];
+    
+    // Fade out all other humans
+    for (UIView *subView in self.view.subviews)
+    {
+        [self fadeOutOtherHumanView:subView];
+    }
+    
+    [self addThankYouText];
 }
 
 #pragma mark - Utilities
@@ -419,6 +501,38 @@ UIImageView *envelopeAndBallView;
                      animations:^{
                          imageView.alpha = 1.0;
                      } completion:NULL];
+}
+
+- (void)fadeOutOtherHumanView:(UIView *)view
+{
+    if (view.tag != tagBackgroundView && view.tag != tagPickedHumanView && view.tag != tagDribbbleLogo)
+    {
+        // If it's not background view, fade it out.
+        [UIView animateWithDuration:2.0
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             view.alpha = 0.0;
+                         } completion:^(BOOL finished) {
+                             [view removeFromSuperview];
+                         }];
+    }
+}
+
+- (void)fadeOutAllViewsExceptBg:(UIView *)view
+{
+    if (view.tag != tagBackgroundView)
+    {
+        // If it's not background view, fade it out.
+        [UIView animateWithDuration:2.0
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             view.alpha = 0.0;
+                         } completion:^(BOOL finished) {
+                             [view removeFromSuperview];
+                         }];
+    }
 }
 
 - (void)fallHumanDown:(UIImageView *)humanView from:(CGFloat)positionX to:(CGFloat)positionY
