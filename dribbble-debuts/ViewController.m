@@ -179,20 +179,8 @@ NSMutableArray *humanInnerBound;
         humanView.image = scaledHumanImg;
         [self.view addSubview:humanView];
         
-        float randomDelay = [self getRandomFloatFrom:0.7 to:3.0];
-        
-        POPBasicAnimation *fallDownAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewCenter];
-        fallDownAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        fallDownAnimation.duration = randomDelay;
-        fallDownAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(human.positionX, human.positionY)];
-        [humanView pop_addAnimation:fallDownAnimation forKey:@"fallDown"];
-        
-        POPBasicAnimation *fadeInAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
-        fadeInAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-        fadeInAnimation.duration = randomDelay;
-        fadeInAnimation.fromValue = @(0.0);
-        fadeInAnimation.toValue = @(1.0);
-        [humanView pop_addAnimation:fadeInAnimation forKey:@"fadeIn"];
+        // Animate the human fall down effect
+        [self fallHumanDown:humanView from:human.positionX to:human.positionY];
     }
 }
 
@@ -220,7 +208,7 @@ NSMutableArray *humanInnerBound;
         
         // Add the scaled human to the view
         UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
-                                                                               human.positionY,
+                                                                               -10,
                                                                                scaledHumanImg.size.width,
                                                                                scaledHumanImg.size.height)];
         // Set the color of the medium bound human
@@ -228,6 +216,9 @@ NSMutableArray *humanInnerBound;
         [humanView setTintColor:UIColorFromRGB(0xECF1F2)];
         
         [self.view addSubview:humanView];
+        
+        // Animate the human fall down effect
+        [self fallHumanDown:humanView from:human.positionX to:human.positionY];
     }
 }
 
@@ -255,7 +246,7 @@ NSMutableArray *humanInnerBound;
         
         // Add the scaled human to the view
         UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
-                                                                               human.positionY,
+                                                                               -10,
                                                                                scaledHumanImg.size.width,
                                                                                scaledHumanImg.size.height)];
         // Set the color of the medium bound human
@@ -263,6 +254,9 @@ NSMutableArray *humanInnerBound;
         [humanView setTintColor:UIColorFromRGB(0xF2F6F6)];
         
         [self.view addSubview:humanView];
+        
+        // Animate the human fall down effect
+        [self fallHumanDown:humanView from:human.positionX to:human.positionY];
     }
 }
 
@@ -281,11 +275,17 @@ NSMutableArray *humanInnerBound;
     
     // Add the picked human
     UIImageView *pickedHumanView = [[UIImageView alloc] initWithFrame:CGRectMake(180,
-                                                                                 383,
+                                                                                 -10,
                                                                                  pickedHumanImage.size.width,
                                                                                  pickedHumanImage.size.height)];
-    pickedHumanView.image = pickedHumanImage;
+    
+    // Set the color of the picked human to grey first
+    pickedHumanView.image = [pickedHumanImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [pickedHumanView setTintColor:UIColorFromRGB(0xECF1F2)];
     [self.view addSubview:pickedHumanView];
+    
+    // Animate the human fall down effect
+    [self fallHumanDown:pickedHumanView from:180 to:383];
 }
 
 #pragma mark - Assets set up
@@ -326,6 +326,25 @@ NSMutableArray *humanInnerBound;
                      animations:^{
                          imageView.alpha = 1.0;
                      } completion:NULL];
+}
+
+- (void)fallHumanDown:(UIImageView *)humanView from:(CGFloat)positionX to:(CGFloat)positionY
+{
+    float randomDelay = [self getRandomFloatFrom:0.7 to:3.0];
+    
+    POPBasicAnimation *fallDownAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewCenter];
+    fallDownAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    fallDownAnimation.duration = randomDelay;
+    fallDownAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(positionX + (humanView.frame.size.width/2),
+                                                                      positionY + (humanView.frame.size.height/2))];
+    [humanView pop_addAnimation:fallDownAnimation forKey:@"fallDown"];
+    
+    POPBasicAnimation *fadeInAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+    fadeInAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    fadeInAnimation.duration = randomDelay * 1.1;
+    fadeInAnimation.fromValue = @(0.0);
+    fadeInAnimation.toValue = @(1.0);
+    [humanView pop_addAnimation:fadeInAnimation forKey:@"fadeIn"];
 }
 
 - (NSDictionary*)scaleHuman:(UIImage*)sourceImage scaledToWidth:(float)humanNewWidth
