@@ -13,6 +13,8 @@
 // Thanks to www.stackoverflow.com/a/3532264/1031955
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
+#define ARC4RANDOM_MAX 0x100000000
+
 @interface ViewController ()
 
 @end
@@ -171,11 +173,26 @@ NSMutableArray *humanInnerBound;
         
         // Add the scaled human to the view
         UIImageView *humanView = [[UIImageView alloc] initWithFrame:CGRectMake(human.positionX,
-                                                                               human.positionY,
+                                                                               -10,
                                                                                scaledHumanImg.size.width,
                                                                                scaledHumanImg.size.height)];
         humanView.image = scaledHumanImg;
         [self.view addSubview:humanView];
+        
+        float randomDelay = [self getRandomFloatFrom:0.7 to:3.0];
+        
+        POPBasicAnimation *fallDownAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewCenter];
+        fallDownAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        fallDownAnimation.duration = randomDelay;
+        fallDownAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(human.positionX, human.positionY)];
+        [humanView pop_addAnimation:fallDownAnimation forKey:@"fallDown"];
+        
+        POPBasicAnimation *fadeInAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+        fadeInAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+        fadeInAnimation.duration = randomDelay;
+        fadeInAnimation.fromValue = @(0.0);
+        fadeInAnimation.toValue = @(1.0);
+        [humanView pop_addAnimation:fadeInAnimation forKey:@"fadeIn"];
     }
 }
 
@@ -340,6 +357,11 @@ NSMutableArray *humanInnerBound;
     [humanDict setObject:newShadowImage forKey:@"shadow"];
     
     return humanDict;
+}
+
+- (float)getRandomFloatFrom:(float)minRange to:(float)maxRange
+{
+    return ((float)arc4random() / ARC4RANDOM_MAX * (maxRange - minRange)) + minRange;
 }
 
 - (void)didReceiveMemoryWarning
