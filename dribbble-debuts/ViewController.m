@@ -28,6 +28,10 @@ NSMutableArray *humanOuterBound;
 NSMutableArray *humanMiddleBound;
 NSMutableArray *humanInnerBound;
 
+UIImageView *pickedHumanView;
+UIImageView *dribbleLogoView;
+UIImageView *envelopeAndBallView;
+
 @implementation ViewController
 
 - (void)viewDidLoad
@@ -48,8 +52,6 @@ NSMutableArray *humanInnerBound;
     [self generateInnerBoundHuman];
     [self generatePickedHuman];
 }
-
-#pragma mark - Animations
 
 #pragma mark - Human set up
 
@@ -274,7 +276,7 @@ NSMutableArray *humanInnerBound;
     [self.view addSubview:pickedHumanShadowView];
     
     // Add the picked human
-    UIImageView *pickedHumanView = [[UIImageView alloc] initWithFrame:CGRectMake(180,
+    pickedHumanView = [[UIImageView alloc] initWithFrame:CGRectMake(180,
                                                                                  -10,
                                                                                  pickedHumanImage.size.width,
                                                                                  pickedHumanImage.size.height)];
@@ -288,7 +290,6 @@ NSMutableArray *humanInnerBound;
     [self fallHumanDown:pickedHumanView from:180 to:383];
     
     [self performSelector:@selector(addEnvelope) withObject:nil afterDelay:3.0];
-//    [self performSelector:@selector(changeToDribbleColor:) withObject:pickedHumanView afterDelay:3.0];
 }
 
 #pragma mark - Assets set up
@@ -305,7 +306,7 @@ NSMutableArray *humanInnerBound;
 {
     UIImage *dribbleLogo = [UIImage imageNamed:@"dribbble-logo"];
     CGFloat screenCenterX = (screenWidth/2) - (dribbleLogo.size.width/2);
-    UIImageView *dribbleLogoView = [[UIImageView alloc] initWithFrame:CGRectMake(screenCenterX,
+    dribbleLogoView = [[UIImageView alloc] initWithFrame:CGRectMake(screenCenterX,
                                                                                  45,
                                                                                  dribbleLogo.size.width,
                                                                                  dribbleLogo.size.height)];
@@ -321,33 +322,30 @@ NSMutableArray *humanInnerBound;
     
     // Fade in the image
     [self fadeInImage:dribbleLogoView withDelay:4.0];
-    
-//    [self performSelector:@selector(changeToDribbleColor:) withObject:dribbleLogoView afterDelay:3.0];
 }
 
 - (void)addEnvelope
 {
     UIImage *envelopeImage = [UIImage imageNamed:@"envelope"];
-    UIImageView *envelopeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(208,
+    envelopeAndBallView = [[UIImageView alloc] initWithFrame:CGRectMake(208,
                                                                                    370,
                                                                                    envelopeImage.size.width,
                                                                                    envelopeImage.size.height)];
-    envelopeImageView.image = envelopeImage;
+    envelopeAndBallView.image = envelopeImage;
     // Make the image transparent at first in order to fade in
-    envelopeImageView.alpha = 0;
-    [self.view addSubview: envelopeImageView];
+    envelopeAndBallView.alpha = 0;
+    [self.view addSubview: envelopeAndBallView];
     
     // Fade in the envelope
     [UIView animateWithDuration:1.0
                           delay:0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         envelopeImageView.alpha = 1.0;
+                         envelopeAndBallView.alpha = 1.0;
                      } completion:^(BOOL finished) {
+                         // Add the exclamation mark after the envelope show up
                          [self addExclamationMark];
                      }];
-    
-    // Add exclamation mark
 }
 
 - (void)addExclamationMark
@@ -369,8 +367,46 @@ NSMutableArray *humanInnerBound;
                              exclamationMark.alpha = 0.0;
                          } completion:^(BOOL finished) {
                              [exclamationMark removeFromSuperview];
+                             [self transformEnvelopeToDribbbleBall];
                          }];
     });
+}
+
+#pragma mark - Animations
+
+- (void)transformEnvelopeToDribbbleBall
+{
+    // Resize the envelope to the dribbble ball size
+    POPSpringAnimation *resizeEnvelope = [POPSpringAnimation animation];
+    resizeEnvelope.property = [POPAnimatableProperty propertyWithName: kPOPViewFrame];
+    resizeEnvelope.toValue=[NSValue valueWithCGRect:CGRectMake(envelopeAndBallView.frame.origin.x + 2,
+                                                               envelopeAndBallView.frame.origin.y,
+                                                               10,
+                                                               10)];
+    resizeEnvelope.name = @"changeShape";
+    resizeEnvelope.delegate = self;
+    [envelopeAndBallView pop_addAnimation:resizeEnvelope forKey:@"changeShape"];
+    
+    // Change the envelope to the dribbble ball
+    UIImage *dribbbleBall = [UIImage imageNamed:@"dribbble-ball"];
+    envelopeAndBallView.image = dribbbleBall;
+    
+    // Resize the dribbble ball
+    POPBasicAnimation *resizeDribbleBall = [POPBasicAnimation animation];
+    resizeDribbleBall.property = [POPAnimatableProperty propertyWithName:kPOPViewBounds];
+    resizeDribbleBall.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 15, 15)];
+    resizeDribbleBall.duration = 0.7;
+    [envelopeAndBallView pop_addAnimation:resizeDribbleBall forKey:@"scaleView"];
+    
+    // Fade in Dribbble Ball
+    POPBasicAnimation *fadeInDribbbleBall = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+    fadeInDribbbleBall.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    fadeInDribbbleBall.fromValue = @(0.3);
+    fadeInDribbbleBall.toValue = @(1.0);
+    [envelopeAndBallView pop_addAnimation:fadeInDribbbleBall forKey:@"fadeInDribbbleBall"];
+    
+    [self performSelector:@selector(changeToDribbleColor:) withObject:pickedHumanView afterDelay:0.3];
+    [self performSelector:@selector(changeToDribbleColor:) withObject:dribbleLogoView afterDelay:0.7];
 }
 
 #pragma mark - Utilities
@@ -437,7 +473,7 @@ NSMutableArray *humanInnerBound;
 
 - (void)changeToDribbleColor:(UIImageView *)sourceImage
 {
-    [UIView animateWithDuration:1.4
+    [UIView animateWithDuration:3.0
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
