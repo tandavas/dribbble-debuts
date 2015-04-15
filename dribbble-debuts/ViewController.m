@@ -320,7 +320,7 @@ NSMutableArray *humanInnerBound;
 
 - (void)fadeInImage:(UIImageView *)imageView
 {
-    [UIView animateWithDuration:2
+    [UIView animateWithDuration:4
                           delay:0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
