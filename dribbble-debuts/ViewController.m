@@ -286,6 +286,8 @@ NSMutableArray *humanInnerBound;
     
     // Animate the human fall down effect
     [self fallHumanDown:pickedHumanView from:180 to:383];
+    
+    [self performSelector:@selector(changeToDribbleColor:) withObject:pickedHumanView afterDelay:3.0];
 }
 
 #pragma mark - Assets set up
@@ -308,12 +310,18 @@ NSMutableArray *humanInnerBound;
                                                                                  dribbleLogo.size.height)];
     dribbleLogoView.image = dribbleLogo;
     
+    // Set the color of the logo to grey first
+    dribbleLogoView.image = [dribbleLogo imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [dribbleLogoView setTintColor:UIColorFromRGB(0xE0E7EA)];
+    
     // Make the image transparent at first in order to fade in
     dribbleLogoView.alpha = 0;
     [self.view addSubview:dribbleLogoView];
     
     // Fade in the image
     [self fadeInImage:dribbleLogoView];
+    
+    [self performSelector:@selector(changeToDribbleColor:) withObject:dribbleLogoView afterDelay:3.0];
 }
 
 #pragma mark - Utilities
@@ -347,7 +355,7 @@ NSMutableArray *humanInnerBound;
     [humanView pop_addAnimation:fadeInAnimation forKey:@"fadeIn"];
 }
 
-- (NSDictionary*)scaleHuman:(UIImage*)sourceImage scaledToWidth:(float)humanNewWidth
+- (NSDictionary*)scaleHuman:(UIImage *)sourceImage scaledToWidth:(float)humanNewWidth
 {
     // Get the image scale factor
     float humanOldWidth = sourceImage.size.width;
@@ -376,6 +384,19 @@ NSMutableArray *humanInnerBound;
     [humanDict setObject:newShadowImage forKey:@"shadow"];
     
     return humanDict;
+}
+
+- (void)changeToDribbleColor:(UIImageView *)sourceImage
+{
+    [UIView animateWithDuration:1.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         sourceImage.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
+                     }completion:nil];
+    
+    sourceImage.tintAdjustmentMode = UIViewTintAdjustmentModeNormal;
+    sourceImage.tintColor = UIColorFromRGB(0xea4c89);
 }
 
 - (float)getRandomFloatFrom:(float)minRange to:(float)maxRange
