@@ -51,12 +51,24 @@ typedef NS_ENUM(NSInteger, viewTag) {
     
     // Set up assets
     [self setUpBackground];
-    [self addDribbbleLogo];
-    [self setUpHuman];
-    [self generateOuterBoundHuman];
-    [self generateMediumBoundHuman];
-    [self generateInnerBoundHuman];
-    [self generatePickedHuman];
+    
+    // Delay the animation for 3 second
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:1.0
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             [self addDribbbleLogo];
+                             [self setUpHuman];
+                             [self generateOuterBoundHuman];
+                             [self generateMediumBoundHuman];
+                             [self generateInnerBoundHuman];
+                             [self generatePickedHuman];
+                         } completion:^(BOOL finished) {
+                             
+                         }];
+    });
+
 }
 
 #pragma mark - Human set up
@@ -339,8 +351,8 @@ typedef NS_ENUM(NSInteger, viewTag) {
     UIImage *envelopeImage = [UIImage imageNamed:@"envelope"];
     envelopeAndBallView = [[UIImageView alloc] initWithFrame:CGRectMake(208,
                                                                                    370,
-                                                                                   envelopeImage.size.width,
-                                                                                   envelopeImage.size.height)];
+                                                                                   envelopeImage.size.width / 3,
+                                                                                   envelopeImage.size.height / 3)];
     envelopeAndBallView.image = envelopeImage;
     // Make the image transparent at first in order to fade in
     envelopeAndBallView.alpha = 0;
@@ -397,7 +409,7 @@ typedef NS_ENUM(NSInteger, viewTag) {
     [thankYouLabel setAlpha:0];
     [self.view addSubview:thankYouLabel];
     
-    UILabel *forPickingMeLabel = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth/2) - 125,
+    UILabel *forPickingMeLabel = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth/2) - 71,
                                                                            320,
                                                                            450,
                                                                            20)];
@@ -405,7 +417,7 @@ typedef NS_ENUM(NSInteger, viewTag) {
     [forPickingMeLabel setTextColor:[UIColor blackColor]];
     [forPickingMeLabel setBackgroundColor:[UIColor clearColor]];
     [forPickingMeLabel setFont:[UIFont fontWithName: @"AvenirNext-UltraLight" size: 16.0f]];
-    [forPickingMeLabel setText:@"for picking me for the Dribbble invite"];
+    [forPickingMeLabel setText:@"for the Dribbble invite"];
     [forPickingMeLabel setAlpha:0];
     [self.view addSubview:forPickingMeLabel];
     
@@ -446,8 +458,8 @@ typedef NS_ENUM(NSInteger, viewTag) {
     // Resize the envelope to the dribbble ball size
     POPSpringAnimation *resizeEnvelope = [POPSpringAnimation animation];
     resizeEnvelope.property = [POPAnimatableProperty propertyWithName: kPOPViewFrame];
-    resizeEnvelope.toValue=[NSValue valueWithCGRect:CGRectMake(envelopeAndBallView.frame.origin.x + 2,
-                                                               envelopeAndBallView.frame.origin.y,
+    resizeEnvelope.toValue=[NSValue valueWithCGRect:CGRectMake(envelopeAndBallView.frame.origin.x + 5,
+                                                               envelopeAndBallView.frame.origin.y + 1,
                                                                10,
                                                                10)];
     resizeEnvelope.name = @"changeShape";
@@ -524,7 +536,7 @@ typedef NS_ENUM(NSInteger, viewTag) {
     if (view.tag != tagBackgroundView)
     {
         // If it's not background view, fade it out.
-        [UIView animateWithDuration:2.0
+        [UIView animateWithDuration:4.0
                               delay:0
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{

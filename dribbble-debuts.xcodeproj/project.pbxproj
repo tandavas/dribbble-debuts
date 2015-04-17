@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3CB3E578B1F1F7F08D957898 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58613C1A682B358445BFD22A /* libPods.a */; };
+		90B11CEA1AE0FDA00014FE3E /* envelope.png in Resources */ = {isa = PBXBuildFile; fileRef = 90B11CE91AE0FDA00014FE3E /* envelope.png */; };
 		90B33CE51ADD7F5100A370C5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B33CE41ADD7F5100A370C5 /* main.m */; };
 		90B33CE81ADD7F5100A370C5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B33CE71ADD7F5100A370C5 /* AppDelegate.m */; };
 		90B33CEB1ADD7F5100A370C5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B33CEA1ADD7F5100A370C5 /* ViewController.m */; };
@@ -20,7 +21,6 @@
 		90DD24781ADEEFF000E2CDAB /* shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 90DD24771ADEEFF000E2CDAB /* shadow.png */; };
 		90DD247A1ADF0B3F00E2CDAB /* speech-bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 90DD24791ADF0B3F00E2CDAB /* speech-bubble.png */; };
 		90DEB56E1ADEE4EC0054E0B7 /* dribbble-ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 90DEB56C1ADEE4EC0054E0B7 /* dribbble-ball.png */; };
-		90DEB56F1ADEE4EC0054E0B7 /* envelope.png in Resources */ = {isa = PBXBuildFile; fileRef = 90DEB56D1ADEE4EC0054E0B7 /* envelope.png */; };
 		90FE45AE1ADDA46000BF0E56 /* Human.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FE45AD1ADDA46000BF0E56 /* Human.m */; };
 		90FE45B61ADDCDF200BF0E56 /* picked-human-shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 90FE45B41ADDCDF200BF0E56 /* picked-human-shadow.png */; };
 		90FE45B71ADDCDF200BF0E56 /* picked-human.png in Resources */ = {isa = PBXBuildFile; fileRef = 90FE45B51ADDCDF200BF0E56 /* picked-human.png */; };
@@ -41,6 +41,7 @@
 		525C07F534716B5A98F80385 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		58613C1A682B358445BFD22A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7715D68FACBF5CD25317BB77 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		90B11CE91AE0FDA00014FE3E /* envelope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = envelope.png; path = assets/envelope.png; sourceTree = "<group>"; };
 		90B33CDF1ADD7F5100A370C5 /* dribbble-debuts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dribbble-debuts.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		90B33CE31ADD7F5100A370C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90B33CE41ADD7F5100A370C5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -59,7 +60,6 @@
 		90DD24771ADEEFF000E2CDAB /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shadow.png; path = assets/shadow.png; sourceTree = "<group>"; };
 		90DD24791ADF0B3F00E2CDAB /* speech-bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "speech-bubble.png"; path = "assets/speech-bubble.png"; sourceTree = "<group>"; };
 		90DEB56C1ADEE4EC0054E0B7 /* dribbble-ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dribbble-ball.png"; path = "assets/dribbble-ball.png"; sourceTree = "<group>"; };
-		90DEB56D1ADEE4EC0054E0B7 /* envelope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = envelope.png; path = assets/envelope.png; sourceTree = "<group>"; };
 		90FE45AC1ADDA46000BF0E56 /* Human.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Human.h; sourceTree = "<group>"; };
 		90FE45AD1ADDA46000BF0E56 /* Human.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Human.m; sourceTree = "<group>"; };
 		90FE45B41ADDCDF200BF0E56 /* picked-human-shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "picked-human-shadow.png"; path = "assets/picked-human-shadow.png"; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 				90B33D0B1ADD870000A370C5 /* bg.png */,
 				90DEB56C1ADEE4EC0054E0B7 /* dribbble-ball.png */,
 				90B33D0D1ADD88BE00A370C5 /* dribbble-logo.png */,
-				90DEB56D1ADEE4EC0054E0B7 /* envelope.png */,
+				90B11CE91AE0FDA00014FE3E /* envelope.png */,
 				90FE45B81ADDCE0400BF0E56 /* human.png */,
 				90FE45B51ADDCDF200BF0E56 /* picked-human.png */,
 				90FE45B41ADDCDF200BF0E56 /* picked-human-shadow.png */,
@@ -273,8 +273,8 @@
 				90FE45B61ADDCDF200BF0E56 /* picked-human-shadow.png in Resources */,
 				90FE45B91ADDCE0400BF0E56 /* human.png in Resources */,
 				90B33D0E1ADD88BE00A370C5 /* dribbble-logo.png in Resources */,
-				90DEB56F1ADEE4EC0054E0B7 /* envelope.png in Resources */,
 				90DD247A1ADF0B3F00E2CDAB /* speech-bubble.png in Resources */,
+				90B11CEA1AE0FDA00014FE3E /* envelope.png in Resources */,
 				90DEB56E1ADEE4EC0054E0B7 /* dribbble-ball.png in Resources */,
 				90B33CF01ADD7F5100A370C5 /* Images.xcassets in Resources */,
 			);
